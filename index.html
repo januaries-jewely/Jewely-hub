@@ -1,10 +1,11 @@
-```html
+
+```html id="q7m2kd"
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JEWELY HUB | Jewelry Store</title>
+  <title>JEWELY HUB | Online Jewelry Store</title>
 
   <style>
     * {
@@ -197,6 +198,12 @@
       justify-content: center;
     }
 
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+    }
+
     @media (max-width: 700px) {
       header {
         flex-direction: column;
@@ -236,46 +243,10 @@
   </section>
 
   <section id="shop">
-    <h2 class="section-title">Featured Jewelry</h2>
+    <h2 class="section-title">Our Jewelry</h2>
 
-    <div class="products">
-
-      <div class="product">
-        <div class="product-image">💍</div>
-        <div class="product-info">
-          <h3>Classic Gold Ring</h3>
-          <div class="price">KES 8,500</div>
-          <button class="btn" onclick="addToCart()">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-image">📿</div>
-        <div class="product-info">
-          <h3>Elegant Necklace</h3>
-          <div class="price">KES 12,000</div>
-          <button class="btn" onclick="addToCart()">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-image">✨</div>
-        <div class="product-info">
-          <h3>Luxury Bracelet</h3>
-          <div class="price">KES 7,500</div>
-          <button class="btn" onclick="addToCart()">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-image">💎</div>
-        <div class="product-info">
-          <h3>Diamond Earrings</h3>
-          <div class="price">KES 15,000</div>
-          <button class="btn" onclick="addToCart()">Add to Cart</button>
-        </div>
-      </div>
-
+    <div id="products" class="products">
+      <div class="loading">Loading products...</div>
     </div>
   </section>
 
@@ -310,28 +281,196 @@
   </footer>
 
   <script>
-    let cartCount = 0;
+    /* =====================================================
+       SUPABASE CONNECTION
+       ===================================================== */
 
-    function addToCart() {
-      cartCount++;
-      document.getElementById("cartCount").textContent = cartCount;
-      alert("Product added to your cart!");
+    const SUPABASE_URL =
+      "https://wghifvgqdyhwfiyqsspn.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
+
+
+    /* =====================================================
+       CART
+       ===================================================== */
+
+    let cart = [];
+
+    function addToCart(product) {
+      cart.push(product);
+
+      document.getElementById("cartCount").textContent =
+        cart.length;
+
+      alert(product.name + " added to your cart!");
     }
 
+
     function showCart() {
-      if (cartCount === 0) {
+      if (cart.length === 0) {
         alert("Your cart is empty.");
-      } else {
-        alert("You have " + cartCount + " item(s) in your cart.");
+        return;
+      }
+
+      let message = "Your cart:\\n\\n";
+
+      cart.forEach(function(product, index) {
+        message +=
+          (index + 1) + ". " +
+          product.name +
+          " - KES " +
+          Number(product.price).toLocaleString() +
+          "\\n";
+      });
+
+      alert(message);
+    }
+
+
+    function contactUs() {
+      window.location.href =
+        "mailto:info@jewelyhub.com";
+    }
+
+
+    /* =====================================================
+       LOAD PRODUCTS FROM SUPABASE
+       ===================================================== */
+
+    async function loadProducts() {
+
+      const productsContainer =
+        document.getElementById("products");
+
+      try {
+
+        const response = await fetch(
+          SUPABASE_URL +
+          "/rest/v1/products?select=*",
+          {
+            method: "GET",
+
+            headers: {
+              "apikey": SUPABASE_PUBLISHABLE_KEY,
+              "Authorization":
+                "Bearer " + SUPABASE_PUBLISHABLE_KEY
+            }
+          }
+        );
+
+
+        if (!response.ok) {
+          throw new Error(
+            "Unable to load products."
+          );
+        }
+
+
+        const products =
+          await response.json();
+
+
+        if (!products || products.length === 0) {
+
+          productsContainer.innerHTML = `
+            <div class="loading">
+              <h3>No products available yet.</h3>
+              <p>
+                Products added through the JEWELY HUB
+                admin dashboard will appear here.
+              </p>
+            </div>
+          `;
+
+          return;
+        }
+
+
+        productsContainer.innerHTML = "";
+
+
+        products.forEach(function(product) {
+
+          const card =
+            document.createElement("div");
+
+          card.className = "product";
+
+
+          card.innerHTML = `
+
+            <div class="product-image">
+              ${
+                product.image_url
+                ? `<img
+                    src="${product.image_url}"
+                    alt="${product.name}"
+                    style="
+                      width:100%;
+                      height:100%;
+                      object-fit:cover;
+                    "
+                  >`
+                : "💎"
+              }
+            </div>
+
+            <div class="product-info">
+
+              <h3>
+                ${product.name}
+              </h3>
+
+              <div class="price">
+                KES ${Number(product.price).toLocaleString()}
+              </div>
+
+              <button
+                class="btn"
+                onclick='addToCart(${JSON.stringify(product)})'
+              >
+                Add to Cart
+              </button>
+
+            </div>
+          `;
+
+
+          productsContainer.appendChild(card);
+
+        });
+
+      } catch (error) {
+
+        console.error(error);
+
+        productsContainer.innerHTML = `
+
+          <div class="loading">
+
+            <h3>Products could not be loaded.</h3>
+
+            <p>
+              We are preparing the JEWELY HUB catalog.
+              Please check again soon.
+            </p>
+
+          </div>
+        `;
       }
     }
 
-    function contactUs() {
-      window.location.href = "mailto:info@jewelyhub.com";
-    }
+
+    /* =====================================================
+       START WEBSITE
+       ===================================================== */
+
+    loadProducts();
+
   </script>
 
 </body>
 </html>
 ```
-
