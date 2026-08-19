@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JEWELY HUB | Admin Dashboard</title>
+
+  <title>JEWELY HUB | Luxury Jewelry</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,7 +16,7 @@
     }
 
     body {
-      background: #f5f5f5;
+      background: #fafafa;
       color: #222;
     }
 
@@ -22,118 +24,145 @@
       background: #111;
       color: white;
       padding: 18px 6%;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
     }
 
-    header a,
-    header button {
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav button {
       border: none;
       padding: 10px 16px;
       border-radius: 5px;
-      text-decoration: none;
       cursor: pointer;
-      margin-left: 6px;
-    }
-
-    header a {
       background: #d4af37;
       color: #111;
+      font-weight: bold;
     }
 
-    header button {
-      background: #c62828;
+    .hero {
+      min-height: 430px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          rgba(0,0,0,.55),
+          rgba(0,0,0,.55)
+        ),
+        url("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1600&q=80");
+
+      background-size: cover;
+      background-position: center;
+
       color: white;
+      padding: 40px 20px;
     }
 
-    main {
+    .hero h1 {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+
+    .hero button {
+      background: #d4af37;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .container {
       width: 92%;
-      max-width: 1150px;
-      margin: 35px auto;
+      max-width: 1200px;
+      margin: 40px auto;
     }
 
-    .card {
-      background: white;
-      padding: 25px;
-      margin-bottom: 25px;
-      border-radius: 10px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    .tools {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
-    h1 {
-      margin-bottom: 25px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    input,
-    textarea {
-      width: 100%;
+    .tools input,
+    .tools select {
       padding: 13px;
-      margin-bottom: 14px;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 15px;
     }
 
-    textarea {
-      min-height: 100px;
-      resize: vertical;
+    .tools input {
+      flex: 1;
+      min-width: 220px;
     }
 
-    .btn {
-      background: #111;
-      color: white;
-      border: none;
-      padding: 13px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 15px;
-    }
+    .products {
+      display: grid;
 
-    .btn:hover {
-      background: #d4af37;
-      color: #111;
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(240px, 1fr)
+        );
+
+      gap: 25px;
     }
 
     .product {
-      border: 1px solid #ddd;
-      padding: 18px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,.08);
+
+      transition: .2s;
     }
 
-    .product-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
+    .product:hover {
+      transform: translateY(-4px);
     }
 
     .product-image {
-      width: 90px;
-      height: 90px;
-      border-radius: 7px;
-      overflow: hidden;
+      width: 100%;
+      height: 250px;
       background: #eee;
+      overflow: hidden;
+
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 35px;
-      flex-shrink: 0;
+      align-items: center;
+
+      font-size: 60px;
     }
 
     .product-image img {
@@ -142,1057 +171,1034 @@
       object-fit: cover;
     }
 
+    .product-info {
+      padding: 20px;
+    }
+
     .product-info h3 {
       margin-bottom: 8px;
     }
 
-    .product-info p {
-      margin: 5px 0;
+    .description {
+      color: #666;
+      min-height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .category {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .stock {
       color: #555;
+      font-size: 14px;
+      margin-bottom: 12px;
     }
 
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .add-cart {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
 
-    .edit {
-      background: #1976d2;
-    }
+      padding: 13px;
 
-    .delete {
-      background: #c62828;
-    }
+      border-radius: 5px;
+      cursor: pointer;
 
-    .message {
-      margin-top: 15px;
+      font-size: 15px;
       font-weight: bold;
     }
 
-    #dashboard {
-      display: none;
+    .add-cart:hover {
+      background: #d4af37;
+      color: #111;
     }
 
-    #login {
-      max-width: 500px;
-      margin: 80px auto;
+    .add-cart:disabled {
+      background: #aaa;
+      cursor: not-allowed;
     }
 
-    .login-title {
+    /* CART */
+
+    .cart-panel {
+      position: fixed;
+
+      right: -420px;
+      top: 0;
+
+      width: 400px;
+      max-width: 95%;
+
+      height: 100vh;
+
+      background: white;
+
+      box-shadow:
+        -5px 0 20px rgba(0,0,0,.2);
+
+      z-index: 2000;
+
+      transition: .3s;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-panel.open {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 20px;
+
+      background: #111;
+      color: white;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .cart-item h4 {
+      margin-bottom: 6px;
+    }
+
+    .cart-price {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quantity button {
+      width: 30px;
+      height: 30px;
+
+      border: none;
+      background: #111;
+      color: white;
+
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .remove {
+      margin-top: 8px;
+      border: none;
+      background: #c62828;
+      color: white;
+      padding: 7px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .cart-total {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .checkout {
+      width: 100%;
+      padding: 15px;
+
+      border: none;
+      border-radius: 5px;
+
+      background: #d4af37;
+      color: #111;
+
+      font-weight: bold;
+      cursor: pointer;
+
+      font-size: 16px;
+    }
+
+    .empty {
       text-align: center;
-      margin-bottom: 25px;
+      color: #777;
+      margin-top: 40px;
     }
 
-    #editForm {
-      display: none;
+    footer {
+      background: #111;
+      color: white;
+
+      text-align: center;
+
+      padding: 35px 20px;
+
+      margin-top: 60px;
     }
 
-    .cancel {
-      background: #777;
-      margin-left: 8px;
-    }
-
-    @media (max-width: 750px) {
+    @media (max-width: 700px) {
 
       header {
         flex-direction: column;
+        gap: 15px;
       }
 
-      .product {
-        flex-direction: column;
-        align-items: flex-start;
+      .hero h1 {
+        font-size: 38px;
       }
 
-      .product-left {
-        align-items: flex-start;
+      .cart-panel {
+        width: 95%;
       }
 
-      .actions {
-        width: 100%;
-      }
-
-      .actions button {
-        flex: 1;
-      }
     }
+
   </style>
 </head>
 
+
 <body>
+
+
+<!-- HEADER -->
 
 <header>
 
   <div class="logo">
-    JEWELY HUB ADMIN
+    JEWELY HUB
   </div>
 
-  <div>
-    <a href="index.html">
-      View Store
-    </a>
+  <nav>
 
-    <button onclick="logout()">
-      Logout
+    <button onclick="openCart()">
+      🛒 Cart
+      (<span id="cartCount">0</span>)
     </button>
-  </div>
+
+    <button onclick="window.location.href='admin.html'">
+      Admin
+    </button>
+
+  </nav>
 
 </header>
 
 
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- HERO -->
 
-<div id="login" class="card">
+<section class="hero">
 
-  <h2 class="login-title">
-    Admin Login
+  <div>
+
+    <h1>
+      Timeless Elegance
+    </h1>
+
+    <p>
+      Discover beautiful jewelry made to shine.
+    </p>
+
+    <button
+      onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+
+      Shop Now
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section
+  id="shop"
+  class="container">
+
+  <h2 style="margin-bottom:20px;">
+    Our Collection
   </h2>
 
-  <input
-    type="email"
-    id="email"
-    placeholder="Admin email"
-  >
 
-  <input
-    type="password"
-    id="password"
-    placeholder="Password"
-  >
+  <div class="tools">
 
-  <button
-    class="btn"
-    onclick="login()">
-    Login
-  </button>
+    <input
+      type="text"
+      id="search"
+      placeholder="Search jewelry..."
+      oninput="filterProducts()"
+    >
+
+    <select
+      id="category"
+      onchange="filterProducts()">
+
+      <option value="">
+        All Categories
+      </option>
+
+    </select>
+
+  </div>
+
 
   <div
-    id="loginMessage"
-    class="message">
+    id="products"
+    class="products">
+
+    Loading products...
+
+  </div>
+
+</section>
+
+
+<!-- CART -->
+
+<div
+  id="cartPanel"
+  class="cart-panel">
+
+
+  <div class="cart-header">
+
+    <h2>
+      Shopping Cart
+    </h2>
+
+    <button
+      onclick="closeCart()">
+
+      ×
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="cartItems"
+    class="cart-items">
+
+  </div>
+
+
+  <div class="cart-footer">
+
+    <div
+      id="cartTotal"
+      class="cart-total">
+
+      Total: KES 0
+
+    </div>
+
+    <button
+      class="checkout"
+      onclick="checkout()">
+
+      Proceed to Checkout
+
+    </button>
+
   </div>
 
 </div>
 
 
-<!-- =========================
-     DASHBOARD
-========================= -->
+<!-- FOOTER -->
 
-<main id="dashboard">
+<footer>
 
-  <h1>
-    JEWELY HUB Product Dashboard
-  </h1>
+  <h3>
+    JEWELY HUB
+  </h3>
 
+  <p style="margin-top:10px;">
+    Beautiful jewelry for every occasion.
+  </p>
 
-  <!-- ADD PRODUCT -->
+  <p style="margin-top:15px;">
+    © 2026 JEWELY HUB
+  </p>
 
-  <div class="card">
-
-    <h2>
-      ➕ Add New Product
-    </h2>
-
-    <input
-      type="text"
-      id="productName"
-      placeholder="Product name"
-    >
-
-    <textarea
-      id="productDescription"
-      placeholder="Product description"
-    ></textarea>
-
-    <input
-      type="number"
-      id="productPrice"
-      placeholder="Price in KES"
-      min="0"
-    >
-
-    <input
-      type="text"
-      id="productCategory"
-      placeholder="Category e.g. Rings"
-    >
-
-    <input
-      type="number"
-      id="productStock"
-      placeholder="Stock quantity"
-      min="0"
-    >
-
-    <input
-      type="url"
-      id="productImage"
-      placeholder="Public image URL"
-    >
-
-    <button
-      class="btn"
-      onclick="addProduct()">
-      Add Product
-    </button>
-
-    <div
-      id="productMessage"
-      class="message">
-    </div>
-
-  </div>
-
-
-  <!-- EDIT PRODUCT -->
-
-  <div
-    id="editForm"
-    class="card">
-
-    <h2>
-      ✏️ Edit Product
-    </h2>
-
-    <input
-      type="hidden"
-      id="editId"
-    >
-
-    <input
-      type="text"
-      id="editName"
-      placeholder="Product name"
-    >
-
-    <textarea
-      id="editDescription"
-      placeholder="Product description"
-    ></textarea>
-
-    <input
-      type="number"
-      id="editPrice"
-      placeholder="Price in KES"
-      min="0"
-    >
-
-    <input
-      type="text"
-      id="editCategory"
-      placeholder="Category"
-    >
-
-    <input
-      type="number"
-      id="editStock"
-      placeholder="Stock"
-      min="0"
-    >
-
-    <input
-      type="url"
-      id="editImage"
-      placeholder="Public image URL"
-    >
-
-    <button
-      class="btn"
-      onclick="updateProduct()">
-      Save Changes
-    </button>
-
-    <button
-      class="btn cancel"
-      onclick="cancelEdit()">
-      Cancel
-    </button>
-
-    <div
-      id="editMessage"
-      class="message">
-    </div>
-
-  </div>
-
-
-  <!-- PRODUCTS -->
-
-  <div class="card">
-
-    <h2>
-      📦 Current Products
-    </h2>
-
-    <div id="products">
-      Loading products...
-    </div>
-
-  </div>
-
-</main>
+</footer>
 
 
 <script>
 
-  /* ==========================================
-     SUPABASE
-  ========================================== */
 
-  const SUPABASE_URL =
-    "https://wghifvgqdyhwfiyqsspn.supabase.co";
-
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
+/* ==========================================
+   SUPABASE
+========================================== */
 
 
-  /* ==========================================
-     LOGIN
-  ========================================== */
-
-  async function login() {
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value;
-
-    const message =
-      document.getElementById("loginMessage");
+const SUPABASE_URL =
+  "https://wghifvgqdyhwfiyqsspn.supabase.co";
 
 
-    if (!email || !password) {
-
-      message.textContent =
-        "Please enter your email and password.";
-
-      message.style.color = "red";
-
-      return;
-    }
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
 
 
-    try {
+/* ==========================================
+   DATA
+========================================== */
 
-      const response = await fetch(
+
+let allProducts = [];
+
+let cart =
+  JSON.parse(
+    localStorage.getItem("jewelyHubCart")
+  ) || [];
+
+
+/* ==========================================
+   LOAD PRODUCTS
+========================================== */
+
+
+async function loadProducts() {
+
+  const container =
+    document.getElementById("products");
+
+
+  try {
+
+    const response =
+      await fetch(
         SUPABASE_URL +
-        "/auth/v1/token?grant_type=password",
+        "/rest/v1/products?select=*&order=id.desc",
         {
-          method: "POST",
 
           headers: {
-            "Content-Type": "application/json",
-            "apikey": SUPABASE_PUBLISHABLE_KEY
-          },
 
-          body: JSON.stringify({
-            email: email,
-            password: password
-          })
+            "apikey":
+              SUPABASE_PUBLISHABLE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SUPABASE_PUBLISHABLE_KEY
+
+          }
+
         }
       );
 
 
-      const data =
-        await response.json();
+    if (!response.ok) {
 
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error_description ||
-          data.msg ||
-          "Login failed."
-        );
-
-      }
-
-
-      localStorage.setItem(
-        "access_token",
-        data.access_token
+      throw new Error(
+        "Could not load products."
       );
 
-
-      showDashboard();
-
-
-    } catch (error) {
-
-      message.textContent =
-        error.message;
-
-      message.style.color = "red";
-
-    }
-
-  }
-
-
-  /* ==========================================
-     DASHBOARD
-  ========================================== */
-
-  function showDashboard() {
-
-    document.getElementById("login")
-      .style.display = "none";
-
-    document.getElementById("dashboard")
-      .style.display = "block";
-
-    loadProducts();
-
-  }
-
-
-  function checkLogin() {
-
-    if (
-      localStorage.getItem("access_token")
-    ) {
-
-      showDashboard();
-
-    }
-
-  }
-
-
-  /* ==========================================
-     ADD PRODUCT
-  ========================================== */
-
-  async function addProduct() {
-
-    const token =
-      localStorage.getItem("access_token");
-
-
-    if (!token) {
-
-      alert("Please login first.");
-
-      return;
-
     }
 
 
-    const product = {
-
-      name:
-        document.getElementById("productName")
-          .value.trim(),
-
-      description:
-        document.getElementById("productDescription")
-          .value.trim(),
-
-      price:
-        Number(
-          document.getElementById("productPrice")
-            .value
-        ),
-
-      category:
-        document.getElementById("productCategory")
-          .value.trim(),
-
-      stock:
-        Number(
-          document.getElementById("productStock")
-            .value
-        ),
-
-      image_url:
-        document.getElementById("productImage")
-          .value.trim() || null
-
-    };
+    allProducts =
+      await response.json();
 
 
-    const message =
-      document.getElementById("productMessage");
+    populateCategories();
+
+    displayProducts(allProducts);
 
 
-    if (
-      !product.name ||
-      !product.price ||
-      !product.category
-    ) {
+  } catch (error) {
 
-      message.textContent =
-        "Please enter name, price and category.";
+    console.error(error);
 
-      message.style.color = "red";
-
-      return;
-
-    }
-
-
-    try {
-
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products",
-          {
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              "apikey":
-                SUPABASE_PUBLISHABLE_KEY,
-
-              "Authorization":
-                "Bearer " + token,
-
-              "Prefer":
-                "return=minimal"
-
-            },
-
-            body:
-              JSON.stringify(product)
-
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          await response.text()
-        );
-
-      }
-
-
-      message.textContent =
-        "✅ Product added successfully!";
-
-      message.style.color = "green";
-
-
-      clearAddForm();
-
-      loadProducts();
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      message.textContent =
-        "❌ Could not add product.";
-
-      message.style.color = "red";
-
-    }
+    container.innerHTML = `
+      <p>
+        Unable to load products.
+      </p>
+    `;
 
   }
 
+}
 
-  function clearAddForm() {
 
-    document.getElementById("productName")
-      .value = "";
+/* ==========================================
+   CATEGORIES
+========================================== */
 
-    document.getElementById("productDescription")
-      .value = "";
 
-    document.getElementById("productPrice")
-      .value = "";
+function populateCategories() {
 
-    document.getElementById("productCategory")
-      .value = "";
+  const select =
+    document.getElementById("category");
 
-    document.getElementById("productStock")
-      .value = "";
 
-    document.getElementById("productImage")
-      .value = "";
-
-  }
-
-
-  /* ==========================================
-     LOAD PRODUCTS
-  ========================================== */
-
-  async function loadProducts() {
-
-    const container =
-      document.getElementById("products");
-
-
-    try {
-
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?select=*&order=id.desc",
-          {
-            headers: {
-
-              "apikey":
-                SUPABASE_PUBLISHABLE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                SUPABASE_PUBLISHABLE_KEY
-
-            }
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "Could not load products."
-        );
-
-      }
-
-
-      const products =
-        await response.json();
-
-
-      if (products.length === 0) {
-
-        container.innerHTML =
-          "<p>No products yet.</p>";
-
-        return;
-
-      }
-
-
-      container.innerHTML = "";
-
-
-      products.forEach(function(product) {
-
-        const item =
-          document.createElement("div");
-
-        item.className =
-          "product";
-
-
-        const image =
-          product.image_url
-            ? `
-              <img
-                src="${product.image_url}"
-                alt="${product.name}"
-              >
-            `
-            : "💎";
-
-
-        item.innerHTML = `
-
-          <div class="product-left">
-
-            <div class="product-image">
-              ${image}
-            </div>
-
-            <div class="product-info">
-
-              <h3>
-                ${product.name}
-              </h3>
-
-              <p>
-                ${product.description || ""}
-              </p>
-
-              <p>
-                <strong>
-                  KES ${Number(product.price)
-                    .toLocaleString()}
-                </strong>
-              </p>
-
-              <p>
-                Category:
-                ${product.category || "—"}
-              </p>
-
-              <p>
-                Stock:
-                ${product.stock ?? 0}
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="actions">
-
-            <button
-              class="btn edit"
-              onclick="editProduct(${product.id})">
-              Edit
-            </button>
-
-            <button
-              class="btn delete"
-              onclick="deleteProduct(${product.id})">
-              Delete
-            </button>
-
-          </div>
-
-        `;
-
-
-        container.appendChild(item);
-
-      });
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      container.innerHTML =
-        "<p>Unable to load products.</p>";
-
-    }
-
-  }
-
-
-  /* ==========================================
-     EDIT PRODUCT
-  ========================================== */
-
-  async function editProduct(id) {
-
-    try {
-
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?id=eq." +
-          id +
-          "&select=*",
-          {
-            headers: {
-
-              "apikey":
-                SUPABASE_PUBLISHABLE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                SUPABASE_PUBLISHABLE_KEY
-
-            }
-          }
-        );
-
-
-      const products =
-        await response.json();
-
-
-      if (!products.length) {
-
-        alert("Product not found.");
-
-        return;
-
-      }
-
-
-      const product =
-        products[0];
-
-
-      document.getElementById("editId")
-        .value = product.id;
-
-      document.getElementById("editName")
-        .value = product.name || "";
-
-      document.getElementById("editDescription")
-        .value = product.description || "";
-
-      document.getElementById("editPrice")
-        .value = product.price || "";
-
-      document.getElementById("editCategory")
-        .value = product.category || "";
-
-      document.getElementById("editStock")
-        .value = product.stock ?? "";
-
-      document.getElementById("editImage")
-        .value = product.image_url || "";
-
-
-      document.getElementById("editForm")
-        .style.display = "block";
-
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert("Could not open product.");
-
-    }
-
-  }
-
-
-  /* ==========================================
-     UPDATE PRODUCT
-  ========================================== */
-
-  async function updateProduct() {
-
-    const token =
-      localStorage.getItem("access_token");
-
-
-    const id =
-      document.getElementById("editId").value;
-
-
-    const updatedProduct = {
-
-      name:
-        document.getElementById("editName")
-          .value.trim(),
-
-      description:
-        document.getElementById("editDescription")
-          .value.trim(),
-
-      price:
-        Number(
-          document.getElementById("editPrice")
-            .value
-        ),
-
-      category:
-        document.getElementById("editCategory")
-          .value.trim(),
-
-      stock:
-        Number(
-          document.getElementById("editStock")
-            .value
-        ),
-
-      image_url:
-        document.getElementById("editImage")
-          .value.trim() || null
-
-    };
-
-
-    const message =
-      document.getElementById("editMessage");
-
-
-    try {
-
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?id=eq." +
-          id,
-          {
-            method: "PATCH",
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              "apikey":
-                SUPABASE_PUBLISHABLE_KEY,
-
-              "Authorization":
-                "Bearer " + token,
-
-              "Prefer":
-                "return=minimal"
-
-            },
-
-            body:
-              JSON.stringify(updatedProduct)
-
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          await response.text()
-        );
-
-      }
-
-
-      message.textContent =
-        "✅ Product updated successfully!";
-
-      message.style.color = "green";
-
-
-      setTimeout(function() {
-
-        cancelEdit();
-
-        loadProducts();
-
-      }, 800);
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      message.textContent =
-        "❌ Could not update product.";
-
-      message.style.color = "red";
-
-    }
-
-  }
-
-
-  /* ==========================================
-     CANCEL EDIT
-  ========================================== */
-
-  function cancelEdit() {
-
-    document.getElementById("editForm")
-      .style.display = "none";
-
-    document.getElementById("editMessage")
-      .textContent = "";
-
-  }
-
-
-  /* ==========================================
-     DELETE
-  ========================================== */
-
-  async function deleteProduct(id) {
-
-    const token =
-      localStorage.getItem("access_token");
-
-
-    if (
-      !confirm(
-        "Are you sure you want to delete this product?"
+  const categories =
+    [
+      ...new Set(
+        allProducts
+          .map(product => product.category)
+          .filter(Boolean)
       )
-    ) {
-
-      return;
-
-    }
+    ];
 
 
-    try {
-
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?id=eq." +
-          id,
-          {
-            method: "DELETE",
-
-            headers: {
-
-              "apikey":
-                SUPABASE_PUBLISHABLE_KEY,
-
-              "Authorization":
-                "Bearer " + token
-
-            }
-          }
-        );
+  select.innerHTML =
+    `<option value="">
+      All Categories
+    </option>`;
 
 
-      if (!response.ok) {
+  categories.forEach(category => {
 
-        throw new Error(
-          await response.text()
-        );
+    const option =
+      document.createElement("option");
 
-      }
+    option.value = category;
+
+    option.textContent = category;
+
+    select.appendChild(option);
+
+  });
+
+}
 
 
-      alert("Product deleted.");
+/* ==========================================
+   DISPLAY PRODUCTS
+========================================== */
 
-      loadProducts();
+
+function displayProducts(products) {
+
+  const container =
+    document.getElementById("products");
 
 
-    } catch (error) {
+  if (products.length === 0) {
 
-      console.error(error);
+    container.innerHTML =
+      `<p>No products found.</p>`;
 
-      alert(
-        "Could not delete product."
-      );
-
-    }
+    return;
 
   }
 
 
-  /* ==========================================
-     LOGOUT
-  ========================================== */
+  container.innerHTML = "";
 
-  function logout() {
 
-    localStorage.removeItem(
-      "access_token"
+  products.forEach(product => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "product";
+
+
+    const image =
+      product.image_url
+        ? `
+          <img
+            src="${product.image_url}"
+            alt="${product.name}"
+          >
+        `
+        : "💎";
+
+
+    const stock =
+      Number(product.stock || 0);
+
+
+    card.innerHTML = `
+
+      <div class="product-image">
+        ${image}
+      </div>
+
+      <div class="product-info">
+
+        <h3>
+          ${product.name}
+        </h3>
+
+        <p class="description">
+          ${product.description || ""}
+        </p>
+
+        <p class="category">
+          ${product.category || ""}
+        </p>
+
+        <p class="price">
+          KES ${Number(product.price)
+            .toLocaleString()}
+        </p>
+
+        <p class="stock">
+
+          ${
+            stock > 0
+              ? stock + " available"
+              : "Out of stock"
+          }
+
+        </p>
+
+        <button
+          class="add-cart"
+          ${
+            stock <= 0
+              ? "disabled"
+              : ""
+          }
+          onclick="addToCart(${product.id})">
+
+          ${
+            stock > 0
+              ? "🛒 Add to Cart"
+              : "Out of Stock"
+          }
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+
+function filterProducts() {
+
+  const search =
+    document.getElementById("search")
+      .value
+      .toLowerCase();
+
+
+  const category =
+    document.getElementById("category")
+      .value;
+
+
+  const filtered =
+    allProducts.filter(product => {
+
+      const matchesSearch =
+        product.name
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesCategory =
+        !category ||
+        product.category === category;
+
+
+      return (
+        matchesSearch &&
+        matchesCategory
+      );
+
+    });
+
+
+  displayProducts(filtered);
+
+}
+
+
+/* ==========================================
+   ADD TO CART
+========================================== */
+
+
+function addToCart(id) {
+
+  const product =
+    allProducts.find(
+      p => p.id === id
     );
 
-    location.reload();
+
+  if (!product) return;
+
+
+  const existing =
+    cart.find(
+      item => item.id === id
+    );
+
+
+  if (existing) {
+
+    if (
+      existing.quantity <
+      Number(product.stock)
+    ) {
+
+      existing.quantity++;
+
+    } else {
+
+      alert(
+        "You have reached the available stock."
+      );
+
+      return;
+
+    }
+
+  } else {
+
+    cart.push({
+
+      id: product.id,
+
+      name: product.name,
+
+      price: Number(product.price),
+
+      image_url: product.image_url,
+
+      quantity: 1,
+
+      stock: Number(product.stock)
+
+    });
 
   }
 
 
-  /* ==========================================
-     START
-  ========================================== */
+  saveCart();
 
-  checkLogin();
+  updateCart();
+
+
+  alert(
+    product.name +
+    " added to cart!"
+  );
+
+}
+
+
+/* ==========================================
+   SAVE CART
+========================================== */
+
+
+function saveCart() {
+
+  localStorage.setItem(
+    "jewelyHubCart",
+    JSON.stringify(cart)
+  );
+
+}
+
+
+/* ==========================================
+   UPDATE CART
+========================================== */
+
+
+function updateCart() {
+
+  const container =
+    document.getElementById("cartItems");
+
+
+  const count =
+    cart.reduce(
+      (total, item) =>
+        total + item.quantity,
+      0
+    );
+
+
+  document.getElementById("cartCount")
+    .textContent = count;
+
+
+  if (cart.length === 0) {
+
+    container.innerHTML =
+      `<p class="empty">
+        Your cart is empty.
+      </p>`;
+
+    document.getElementById("cartTotal")
+      .textContent =
+      "Total: KES 0";
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  let total = 0;
+
+
+  cart.forEach(item => {
+
+    const subtotal =
+      item.price *
+      item.quantity;
+
+
+    total += subtotal;
+
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "cart-item";
+
+
+    div.innerHTML = `
+
+      <h4>
+        ${item.name}
+      </h4>
+
+      <div class="cart-price">
+        KES ${item.price.toLocaleString()}
+      </div>
+
+      <div class="quantity">
+
+        <button
+          onclick="changeQuantity(${item.id}, -1)">
+          −
+        </button>
+
+        <strong>
+          ${item.quantity}
+        </strong>
+
+        <button
+          onclick="changeQuantity(${item.id}, 1)">
+          +
+        </button>
+
+      </div>
+
+      <p style="margin-top:8px;">
+        Subtotal:
+        <strong>
+          KES ${subtotal.toLocaleString()}
+        </strong>
+      </p>
+
+      <button
+        class="remove"
+        onclick="removeFromCart(${item.id})">
+
+        Remove
+
+      </button>
+
+    `;
+
+
+    container.appendChild(div);
+
+  });
+
+
+  document.getElementById("cartTotal")
+    .textContent =
+    "Total: KES " +
+    total.toLocaleString();
+
+}
+
+
+/* ==========================================
+   CHANGE QUANTITY
+========================================== */
+
+
+function changeQuantity(id, amount) {
+
+  const item =
+    cart.find(
+      product => product.id === id
+    );
+
+
+  if (!item) return;
+
+
+  const newQuantity =
+    item.quantity + amount;
+
+
+  if (newQuantity <= 0) {
+
+    removeFromCart(id);
+
+    return;
+
+  }
+
+
+  if (
+    newQuantity >
+    item.stock
+  ) {
+
+    alert(
+      "You cannot add more than the available stock."
+    );
+
+    return;
+
+  }
+
+
+  item.quantity =
+    newQuantity;
+
+
+  saveCart();
+
+  updateCart();
+
+}
+
+
+/* ==========================================
+   REMOVE
+========================================== */
+
+
+function removeFromCart(id) {
+
+  cart =
+    cart.filter(
+      item => item.id !== id
+    );
+
+
+  saveCart();
+
+  updateCart();
+
+}
+
+
+/* ==========================================
+   OPEN CART
+========================================== */
+
+
+function openCart() {
+
+  document.getElementById("cartPanel")
+    .classList.add("open");
+
+}
+
+
+/* ==========================================
+   CLOSE CART
+========================================== */
+
+
+function closeCart() {
+
+  document.getElementById("cartPanel")
+    .classList.remove("open");
+
+}
+
+
+/* ==========================================
+   CHECKOUT
+========================================== */
+
+
+function checkout() {
+
+  if (cart.length === 0) {
+
+    alert(
+      "Your cart is empty."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Checkout is coming next. Your cart is ready!"
+  );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+
+loadProducts();
+
+updateCart();
+
 
 </script>
 
