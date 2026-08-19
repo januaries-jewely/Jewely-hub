@@ -58,11 +58,14 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+
       background:
         linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
         url("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1600&q=80");
+
       background-size: cover;
       background-position: center;
+
       color: white;
       padding: 40px 20px;
     }
@@ -124,16 +127,21 @@
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      transition: transform .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
     }
 
     .product-image {
       width: 100%;
       height: 250px;
       background: #eee;
-      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
       font-size: 60px;
     }
 
@@ -154,6 +162,7 @@
     .description {
       color: #666;
       margin-bottom: 10px;
+      min-height: 40px;
     }
 
     .category {
@@ -207,7 +216,7 @@
       background: white;
       box-shadow: -5px 0 20px rgba(0,0,0,.2);
       z-index: 2000;
-      transition: .3s;
+      transition: right .3s;
       display: flex;
       flex-direction: column;
     }
@@ -242,6 +251,10 @@
     .cart-item {
       border-bottom: 1px solid #ddd;
       padding: 15px 0;
+    }
+
+    .cart-item h4 {
+      margin-bottom: 7px;
     }
 
     .quantity {
@@ -294,16 +307,13 @@
       font-size: 16px;
     }
 
-    /* CHECKOUT MODAL */
+    /* CHECKOUT */
 
     .modal {
       display: none;
       position: fixed;
       z-index: 3000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: rgba(0,0,0,.65);
       padding: 20px;
       overflow-y: auto;
@@ -331,18 +341,23 @@
       cursor: pointer;
     }
 
+    .checkout-form label {
+      display: block;
+      font-weight: bold;
+      margin: 12px 0 6px;
+    }
+
     .checkout-form input,
     .checkout-form textarea {
       width: 100%;
       padding: 13px;
-      margin-bottom: 14px;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 15px;
     }
 
     .checkout-form textarea {
-      min-height: 90px;
+      min-height: 100px;
       resize: vertical;
     }
 
@@ -354,7 +369,7 @@
     }
 
     .payment-amount {
-      font-size: 27px;
+      font-size: 28px;
       font-weight: bold;
       margin-top: 8px;
     }
@@ -362,6 +377,7 @@
     .pay-button {
       width: 100%;
       padding: 16px;
+      margin-top: 20px;
       background: #087f23;
       color: white;
       border: none;
@@ -378,6 +394,7 @@
 
     .message {
       margin-top: 15px;
+      line-height: 1.5;
       font-weight: bold;
     }
 
@@ -414,11 +431,10 @@
 
 <body>
 
-<header>
+<!-- HEADER -->
 
-  <div class="logo">
-    JEWELY HUB
-  </div>
+<header>
+  <div class="logo">JEWELY HUB</div>
 
   <nav>
     <button onclick="openCart()">
@@ -429,31 +445,27 @@
       Admin
     </button>
   </nav>
-
 </header>
 
 
+<!-- HERO -->
+
 <section class="hero">
-
   <div>
-
     <h1>Timeless Elegance</h1>
 
     <p>
       Discover beautiful jewelry made to shine.
     </p>
 
-    <button
-      onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
-
+    <button onclick="scrollToShop()">
       Shop Now
-
     </button>
-
   </div>
-
 </section>
 
+
+<!-- PRODUCTS -->
 
 <section id="shop" class="container">
 
@@ -489,7 +501,7 @@
 </section>
 
 
-<!-- CART -->
+<!-- SHOPPING CART -->
 
 <div id="cartPanel" class="cart-panel">
 
@@ -530,7 +542,7 @@
 
     <div class="modal-header">
 
-      <h2>Checkout</h2>
+      <h2>Customer Checkout</h2>
 
       <button
         class="close"
@@ -543,10 +555,12 @@
     </div>
 
 
+    <!-- EXACT PAYMENT AMOUNT -->
+
     <div class="payment-box">
 
       <div>
-        Amount to Pay:
+        Exact Amount to Pay:
       </div>
 
       <div
@@ -557,37 +571,61 @@
 
       </div>
 
-      <p style="margin-top:8px;">
-        Your exact order total will be used for payment.
-      </p>
-
     </div>
 
 
+    <!-- CUSTOMER FORM -->
+
     <div class="checkout-form">
+
+      <label for="customerName">
+        Full Name
+      </label>
 
       <input
         type="text"
         id="customerName"
-        placeholder="Full name"
+        placeholder="Enter your full name"
+        autocomplete="name"
       >
+
+
+      <label for="customerPhone">
+        M-Pesa Phone Number
+      </label>
 
       <input
         type="tel"
         id="customerPhone"
-        placeholder="M-Pesa phone number e.g. 0712345678"
+        placeholder="e.g. 0712345678"
+        autocomplete="tel"
       >
+
+
+      <label for="customerEmail">
+        Email Address
+      </label>
 
       <input
         type="email"
         id="customerEmail"
-        placeholder="Email address"
+        placeholder="Enter your email"
+        autocomplete="email"
       >
+
+
+      <!-- DELIVERY LOCATION -->
+
+      <label for="deliveryLocation">
+        Delivery Location / Address
+      </label>
 
       <textarea
         id="deliveryLocation"
-        placeholder="Delivery location / address">
-      </textarea>
+        placeholder="Enter your delivery location or address"
+        autocomplete="street-address"
+      ></textarea>
+
 
       <button
         id="payButton"
@@ -597,6 +635,7 @@
         Pay Now
 
       </button>
+
 
       <div
         id="checkoutMessage"
@@ -609,6 +648,8 @@
 
 </div>
 
+
+<!-- FOOTER -->
 
 <footer>
 
@@ -628,18 +669,23 @@
 <script>
 
 /* ==========================================
-   SUPABASE
+   SUPABASE SETTINGS
 ========================================== */
 
 const SUPABASE_URL =
   "https://wghifvgqdyhwfiyqsspn.supabase.co";
+
+/*
+  IMPORTANT:
+  Put your existing sb_publishable_... key here.
+*/
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
 
 
 /* ==========================================
-   DATA
+   STORE DATA
 ========================================== */
 
 let allProducts = [];
@@ -648,6 +694,21 @@ let cart =
   JSON.parse(
     localStorage.getItem("jewelyHubCart")
   ) || [];
+
+
+/* ==========================================
+   SHOP NOW
+========================================== */
+
+function scrollToShop() {
+
+  document
+    .getElementById("shop")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
 
 
 /* ==========================================
@@ -667,23 +728,34 @@ async function loadProducts() {
         "/rest/v1/products?select=*&order=id.desc",
         {
           headers: {
-            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "apikey":
+              SUPABASE_PUBLISHABLE_KEY,
+
             "Authorization":
-              "Bearer " + SUPABASE_PUBLISHABLE_KEY
+              "Bearer " +
+              SUPABASE_PUBLISHABLE_KEY
           }
         }
       );
 
+
     if (!response.ok) {
-      throw new Error("Could not load products.");
+
+      throw new Error(
+        "Could not load products."
+      );
+
     }
+
 
     allProducts =
       await response.json();
 
+
     populateCategories();
 
     displayProducts(allProducts);
+
 
   } catch (error) {
 
@@ -691,7 +763,9 @@ async function loadProducts() {
 
     container.innerHTML =
       "<p>Unable to load products.</p>";
+
   }
+
 }
 
 
@@ -713,19 +787,26 @@ function populateCategories() {
       )
     ];
 
+
   select.innerHTML =
     '<option value="">All Categories</option>';
+
 
   categories.forEach(category => {
 
     const option =
       document.createElement("option");
 
-    option.value = category;
-    option.textContent = category;
+    option.value =
+      category;
+
+    option.textContent =
+      category;
 
     select.appendChild(option);
+
   });
+
 }
 
 
@@ -738,33 +819,43 @@ function displayProducts(products) {
   const container =
     document.getElementById("products");
 
+
   if (products.length === 0) {
 
     container.innerHTML =
       "<p>No products found.</p>";
 
     return;
+
   }
 
+
   container.innerHTML = "";
+
 
   products.forEach(product => {
 
     const card =
       document.createElement("div");
 
-    card.className = "product";
+    card.className =
+      "product";
+
 
     const image =
       product.image_url
-        ? `<img
-             src="${product.image_url}"
-             alt="${product.name}">
-          `
+        ? `
+          <img
+            src="${product.image_url}"
+            alt="${product.name}"
+          >
+        `
         : "💎";
+
 
     const stock =
       Number(product.stock || 0);
+
 
     card.innerHTML = `
 
@@ -774,7 +865,9 @@ function displayProducts(products) {
 
       <div class="product-info">
 
-        <h3>${product.name}</h3>
+        <h3>
+          ${product.name}
+        </h3>
 
         <p class="description">
           ${product.description || ""}
@@ -812,47 +905,65 @@ function displayProducts(products) {
       </div>
     `;
 
+
     container.appendChild(card);
+
   });
+
 }
 
 
 /* ==========================================
-   SEARCH
+   SEARCH & CATEGORY FILTER
 ========================================== */
 
 function filterProducts() {
 
   const search =
-    document.getElementById("search")
+    document
+      .getElementById("search")
       .value
       .toLowerCase();
 
+
   const category =
-    document.getElementById("category")
+    document
+      .getElementById("category")
       .value;
+
 
   const filtered =
     allProducts.filter(product => {
 
+      const name =
+        String(product.name || "")
+          .toLowerCase();
+
+
       const matchesSearch =
-        product.name
-          .toLowerCase()
-          .includes(search);
+        name.includes(search);
+
 
       const matchesCategory =
         !category ||
         product.category === category;
 
-      return matchesSearch && matchesCategory;
+
+      return (
+        matchesSearch &&
+        matchesCategory
+      );
+
     });
 
+
   displayProducts(filtered);
+
 }
 
 
 /* ==========================================
-   CART
+   ADD TO CART
 ========================================== */
 
 function addToCart(id) {
@@ -862,12 +973,15 @@ function addToCart(id) {
       p => p.id === id
     );
 
+
   if (!product) return;
+
 
   const existing =
     cart.find(
       item => item.id === id
     );
+
 
   if (existing) {
 
@@ -875,30 +989,62 @@ function addToCart(id) {
       existing.quantity <
       Number(product.stock)
     ) {
+
       existing.quantity++;
+
     } else {
-      alert("You have reached the available stock.");
+
+      alert(
+        "You have reached the available stock."
+      );
+
       return;
+
     }
 
   } else {
 
     cart.push({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price),
-      image_url: product.image_url,
-      quantity: 1,
-      stock: Number(product.stock)
+
+      id:
+        product.id,
+
+      name:
+        product.name,
+
+      price:
+        Number(product.price),
+
+      image_url:
+        product.image_url,
+
+      quantity:
+        1,
+
+      stock:
+        Number(product.stock)
+
     });
+
   }
 
+
   saveCart();
+
   updateCart();
 
-  alert(product.name + " added to cart!");
+
+  alert(
+    product.name +
+    " added to cart!"
+  );
+
 }
 
+
+/* ==========================================
+   SAVE CART
+========================================== */
 
 function saveCart() {
 
@@ -906,13 +1052,19 @@ function saveCart() {
     "jewelyHubCart",
     JSON.stringify(cart)
   );
+
 }
 
+
+/* ==========================================
+   UPDATE CART
+========================================== */
 
 function updateCart() {
 
   const container =
     document.getElementById("cartItems");
+
 
   const count =
     cart.reduce(
@@ -921,40 +1073,61 @@ function updateCart() {
       0
     );
 
+
   document.getElementById("cartCount")
-    .textContent = count;
+    .textContent =
+      count;
+
 
   if (cart.length === 0) {
 
     container.innerHTML =
-      '<p class="empty">Your cart is empty.</p>';
+      `
+        <p class="empty">
+          Your cart is empty.
+        </p>
+      `;
+
 
     document.getElementById("cartTotal")
       .textContent =
-      "Total: KES 0";
+        "Total: KES 0";
+
 
     return;
+
   }
+
 
   container.innerHTML = "";
 
+
   let total = 0;
+
 
   cart.forEach(item => {
 
     const subtotal =
-      item.price * item.quantity;
+      item.price *
+      item.quantity;
+
 
     total += subtotal;
+
 
     const div =
       document.createElement("div");
 
-    div.className = "cart-item";
+
+    div.className =
+      "cart-item";
+
 
     div.innerHTML = `
 
-      <h4>${item.name}</h4>
+      <h4>
+        ${item.name}
+      </h4>
 
       <p>
         KES ${item.price.toLocaleString()}
@@ -967,7 +1140,9 @@ function updateCart() {
           −
         </button>
 
-        <strong>${item.quantity}</strong>
+        <strong>
+          ${item.quantity}
+        </strong>
 
         <button
           onclick="changeQuantity(${item.id}, 1)">
@@ -990,17 +1165,26 @@ function updateCart() {
         Remove
 
       </button>
+
     `;
 
+
     container.appendChild(div);
+
   });
+
 
   document.getElementById("cartTotal")
     .textContent =
-    "Total: KES " +
-    total.toLocaleString();
+      "Total: KES " +
+      total.toLocaleString();
+
 }
 
+
+/* ==========================================
+   CHANGE QUANTITY
+========================================== */
 
 function changeQuantity(id, amount) {
 
@@ -1009,15 +1193,23 @@ function changeQuantity(id, amount) {
       product => product.id === id
     );
 
+
   if (!item) return;
 
+
   const newQuantity =
-    item.quantity + amount;
+    item.quantity +
+    amount;
+
 
   if (newQuantity <= 0) {
+
     removeFromCart(id);
+
     return;
+
   }
+
 
   if (newQuantity > item.stock) {
 
@@ -1026,14 +1218,24 @@ function changeQuantity(id, amount) {
     );
 
     return;
+
   }
 
-  item.quantity = newQuantity;
+
+  item.quantity =
+    newQuantity;
+
 
   saveCart();
+
   updateCart();
+
 }
 
+
+/* ==========================================
+   REMOVE PRODUCT
+========================================== */
 
 function removeFromCart(id) {
 
@@ -1042,64 +1244,102 @@ function removeFromCart(id) {
       item => item.id !== id
     );
 
+
   saveCart();
+
   updateCart();
+
 }
 
 
+/* ==========================================
+   CART OPEN/CLOSE
+========================================== */
+
 function openCart() {
 
-  document.getElementById("cartPanel")
+  document
+    .getElementById("cartPanel")
     .classList.add("open");
+
 }
 
 
 function closeCart() {
 
-  document.getElementById("cartPanel")
+  document
+    .getElementById("cartPanel")
     .classList.remove("open");
+
 }
 
 
 /* ==========================================
-   CHECKOUT
+   CALCULATE EXACT TOTAL
 ========================================== */
 
 function getCartTotal() {
 
   return cart.reduce(
     (total, item) =>
-      total + (item.price * item.quantity),
+      total +
+      (
+        item.price *
+        item.quantity
+      ),
     0
   );
+
 }
 
+
+/* ==========================================
+   OPEN CHECKOUT
+========================================== */
 
 function openCheckout() {
 
   if (cart.length === 0) {
 
-    alert("Your cart is empty.");
+    alert(
+      "Your cart is empty."
+    );
 
     return;
+
   }
+
 
   const total =
     getCartTotal();
 
-  document.getElementById("checkoutAmount")
-    .textContent =
-    "KES " + total.toLocaleString();
 
-  document.getElementById("checkoutModal")
-    .style.display = "block";
+  document
+    .getElementById("checkoutAmount")
+    .textContent =
+      "KES " +
+      total.toLocaleString();
+
+
+  document
+    .getElementById("checkoutModal")
+    .style.display =
+      "block";
+
 }
 
 
+/* ==========================================
+   CLOSE CHECKOUT
+========================================== */
+
 function closeCheckout() {
 
-  document.getElementById("checkoutModal")
-    .style.display = "none";
+  document
+    .getElementById("checkoutModal")
+    .style.display =
+      "none";
+
 }
 
 
@@ -1110,36 +1350,81 @@ function closeCheckout() {
 async function placeOrder() {
 
   const name =
-    document.getElementById("customerName")
-      .value.trim();
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
+
 
   const phone =
-    document.getElementById("customerPhone")
-      .value.trim();
+    document
+      .getElementById("customerPhone")
+      .value
+      .trim();
+
 
   const email =
-    document.getElementById("customerEmail")
-      .value.trim();
+    document
+      .getElementById("customerEmail")
+      .value
+      .trim();
+
 
   const location =
-    document.getElementById("deliveryLocation")
-      .value.trim();
+    document
+      .getElementById("deliveryLocation")
+      .value
+      .trim();
+
 
   const message =
-    document.getElementById("checkoutMessage");
+    document
+      .getElementById("checkoutMessage");
+
 
   const button =
-    document.getElementById("payButton");
+    document
+      .getElementById("payButton");
 
 
-  if (!name || !phone || !location) {
+  /* VALIDATION */
+
+  if (!name) {
 
     message.textContent =
-      "Please enter your name, M-Pesa phone number and delivery location.";
+      "Please enter your full name.";
 
-    message.style.color = "red";
+    message.style.color =
+      "red";
 
     return;
+
+  }
+
+
+  if (!phone) {
+
+    message.textContent =
+      "Please enter your M-Pesa phone number.";
+
+    message.style.color =
+      "red";
+
+    return;
+
+  }
+
+
+  if (!location) {
+
+    message.textContent =
+      "Please enter your delivery location.";
+
+    message.style.color =
+      "red";
+
+    return;
+
   }
 
 
@@ -1148,9 +1433,11 @@ async function placeOrder() {
     message.textContent =
       "Your cart is empty.";
 
-    message.style.color = "red";
+    message.style.color =
+      "red";
 
     return;
+
   }
 
 
@@ -1161,34 +1448,30 @@ async function placeOrder() {
   const orderItems =
     cart.map(item => ({
 
-      id: item.id,
+      id:
+        item.id,
 
-      name: item.name,
+      name:
+        item.name,
 
-      price: item.price,
+      price:
+        item.price,
 
-      quantity: item.quantity
+      quantity:
+        item.quantity
 
     }));
 
 
-  button.disabled = true;
+  button.disabled =
+    true;
+
 
   button.textContent =
-    "Saving Order...";
+    "Creating Order...";
 
 
   try {
-
-    /*
-      IMPORTANT:
-
-      This saves the order first.
-
-      The actual M-Pesa STK Push will be
-      connected securely through a Supabase
-      Edge Function in the next step.
-    */
 
     const response =
       await fetch(
@@ -1196,7 +1479,8 @@ async function placeOrder() {
         "/rest/v1/orders",
         {
 
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
 
@@ -1215,23 +1499,31 @@ async function placeOrder() {
 
           },
 
-          body: JSON.stringify({
+          body:
+            JSON.stringify({
 
-            customer_name: name,
+              customer_name:
+                name,
 
-            phone: phone,
+              phone:
+                phone,
 
-            email: email || null,
+              email:
+                email || null,
 
-            delivery_location: location,
+              delivery_location:
+                location,
 
-            items: orderItems,
+              items:
+                orderItems,
 
-            total: total,
+              total:
+                total,
 
-            status: "pending"
+              status:
+                "pending"
 
-          })
+            })
 
         }
       );
@@ -1242,40 +1534,42 @@ async function placeOrder() {
       const errorText =
         await response.text();
 
-      throw new Error(errorText);
+      throw new Error(
+        errorText
+      );
+
     }
 
 
-    /*
-      ORDER SAVED
-    */
-
     message.innerHTML = `
-      ✅ Order created successfully.<br><br>
+
+      ✅ Order created successfully!
+
+      <br><br>
 
       <strong>
-        Amount to Pay:
+        Exact Amount to Pay:
         KES ${total.toLocaleString()}
       </strong>
 
       <br><br>
 
-      Your M-Pesa payment request will be
-      connected next.
+      M-Pesa payment connection will be
+      activated next.
+
     `;
 
-    message.style.color = "green";
+
+    message.style.color =
+      "green";
 
 
     button.textContent =
       "Order Saved";
 
 
-    /*
-      Clear cart after successful order
-    */
-
     cart = [];
+
 
     saveCart();
 
@@ -1286,22 +1580,30 @@ async function placeOrder() {
 
     console.error(error);
 
+
     message.textContent =
       "❌ Could not create the order. Please try again.";
 
-    message.style.color = "red";
 
-    button.disabled = false;
+    message.style.color =
+      "red";
+
+
+    button.disabled =
+      false;
+
 
     button.textContent =
       "Pay KES " +
       total.toLocaleString();
+
   }
+
 }
 
 
 /* ==========================================
-   START
+   START STORE
 ========================================== */
 
 loadProducts();
