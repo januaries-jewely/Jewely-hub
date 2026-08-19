@@ -1,11 +1,10 @@
-
-```html id="q7m2kd"
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JEWELY HUB | Online Jewelry Store</title>
+
+  <title>JEWELY HUB | Luxury Jewelry</title>
 
   <style>
     * {
@@ -16,91 +15,107 @@
     }
 
     body {
-      background: #faf8f5;
+      background: #fafafa;
       color: #222;
     }
 
     header {
       background: #111;
       color: white;
-      padding: 20px 6%;
+      padding: 18px 6%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 25px;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 25px;
-      font-size: 15px;
+    nav {
+      display: flex;
+      gap: 10px;
     }
 
-    nav a:hover {
-      color: #d4af37;
+    nav button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #d4af37;
+      color: #111;
+      font-weight: bold;
     }
 
     .hero {
-      min-height: 500px;
+      min-height: 430px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #f7efe2, #fff);
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 40px 20px;
     }
 
     .hero h1 {
       font-size: 55px;
-      margin-bottom: 20px;
-      letter-spacing: 3px;
+      margin-bottom: 15px;
     }
 
     .hero p {
       font-size: 20px;
-      margin-bottom: 30px;
-      color: #555;
+      margin-bottom: 25px;
     }
 
-    .btn {
-      display: inline-block;
-      background: #111;
-      color: white;
-      padding: 14px 28px;
-      text-decoration: none;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .btn:hover {
+    .hero button {
       background: #d4af37;
-      color: #111;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: bold;
     }
 
-    section {
-      padding: 70px 6%;
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 40px auto;
     }
 
-    .section-title {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 40px;
+    .tools {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tools input,
+    .tools select {
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    .tools input {
+      flex: 1;
+      min-width: 220px;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 25px;
     }
 
@@ -108,21 +123,24 @@
       background: white;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: transform 0.2s;
-    }
-
-    .product:hover {
-      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
     }
 
     .product-image {
-      height: 240px;
+      width: 100%;
+      height: 250px;
       background: #eee;
+      overflow: hidden;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 70px;
+      align-items: center;
+      font-size: 60px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .product-info {
@@ -130,78 +148,251 @@
     }
 
     .product-info h3 {
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: #666;
       margin-bottom: 10px;
-      font-size: 20px;
+    }
+
+    .category {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 8px;
     }
 
     .price {
-      color: #b28a18;
-      font-size: 19px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .stock {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .add-cart {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
+      padding: 13px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-cart:hover {
+      background: #d4af37;
+      color: #111;
+    }
+
+    .add-cart:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    /* CART */
+
+    .cart-panel {
+      position: fixed;
+      right: -420px;
+      top: 0;
+      width: 400px;
+      max-width: 95%;
+      height: 100vh;
+      background: white;
+      box-shadow: -5px 0 20px rgba(0,0,0,.2);
+      z-index: 2000;
+      transition: .3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-panel.open {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 20px;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .quantity button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: #111;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .remove {
+      margin-top: 8px;
+      border: none;
+      background: #c62828;
+      color: white;
+      padding: 7px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .cart-total {
+      font-size: 22px;
       font-weight: bold;
       margin-bottom: 15px;
     }
 
-    .about {
-      background: #111;
+    .checkout {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      background: #d4af37;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* CHECKOUT MODAL */
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.65);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 550px;
+      margin: 40px auto;
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      border: none;
+      background: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .checkout-form input,
+    .checkout-form textarea {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    .checkout-form textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .payment-box {
+      background: #f5f5f5;
+      padding: 18px;
+      border-radius: 8px;
+      margin: 10px 0 20px;
+    }
+
+    .payment-amount {
+      font-size: 27px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .pay-button {
+      width: 100%;
+      padding: 16px;
+      background: #087f23;
       color: white;
-      text-align: center;
+      border: none;
+      border-radius: 5px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .about p {
-      max-width: 750px;
-      margin: auto;
-      line-height: 1.8;
-      color: #ddd;
+    .pay-button:disabled {
+      background: #999;
+      cursor: not-allowed;
     }
 
-    .contact {
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .empty {
       text-align: center;
+      color: #777;
+      margin-top: 40px;
     }
 
     footer {
       background: #111;
       color: white;
       text-align: center;
-      padding: 25px;
-    }
-
-    .cart {
-      position: fixed;
-      right: 25px;
-      bottom: 25px;
-      background: #d4af37;
-      color: #111;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      cursor: pointer;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      z-index: 200;
-    }
-
-    .cart-count {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: red;
-      color: white;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #777;
+      padding: 35px 20px;
+      margin-top: 60px;
     }
 
     @media (max-width: 700px) {
@@ -210,12 +401,12 @@
         gap: 15px;
       }
 
-      nav a {
-        margin: 0 8px;
-      }
-
       .hero h1 {
         font-size: 38px;
+      }
+
+      .cart-panel {
+        width: 95%;
       }
     }
   </style>
@@ -223,254 +414,901 @@
 
 <body>
 
-  <header>
-    <div class="logo">JEWELY HUB</div>
+<header>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#shop">Shop</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <section class="hero" id="home">
-    <div>
-      <h1>JEWELY HUB</h1>
-      <p>Elegant jewelry for every special moment.</p>
-      <a href="#shop" class="btn">SHOP NOW</a>
-    </div>
-  </section>
-
-  <section id="shop">
-    <h2 class="section-title">Our Jewelry</h2>
-
-    <div id="products" class="products">
-      <div class="loading">Loading products...</div>
-    </div>
-  </section>
-
-  <section class="about" id="about">
-    <h2 class="section-title">About JEWELY HUB</h2>
-
-    <p>
-      JEWELY HUB is an online jewelry store dedicated to bringing
-      beautiful, elegant and affordable jewelry to our customers.
-      Discover pieces designed to make every occasion special.
-    </p>
-  </section>
-
-  <section class="contact" id="contact">
-    <h2 class="section-title">Contact Us</h2>
-
-    <p>Email: info@jewelyhub.com</p>
-    <p style="margin-top:10px;">Phone: +254 700 000 000</p>
-
-    <br>
-
-    <button class="btn" onclick="contactUs()">Contact JEWELY HUB</button>
-  </section>
-
-  <div class="cart" onclick="showCart()">
-    🛒
-    <div class="cart-count" id="cartCount">0</div>
+  <div class="logo">
+    JEWELY HUB
   </div>
 
-  <footer>
-    <p>© 2026 JEWELY HUB. All rights reserved.</p>
-  </footer>
+  <nav>
+    <button onclick="openCart()">
+      🛒 Cart (<span id="cartCount">0</span>)
+    </button>
 
-  <script>
-    /* =====================================================
-       SUPABASE CONNECTION
-       ===================================================== */
+    <button onclick="window.location.href='admin.html'">
+      Admin
+    </button>
+  </nav>
 
-    const SUPABASE_URL =
-      "https://wghifvgqdyhwfiyqsspn.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
+</header>
 
 
-    /* =====================================================
-       CART
-       ===================================================== */
+<section class="hero">
 
-    let cart = [];
+  <div>
 
-    function addToCart(product) {
-      cart.push(product);
+    <h1>Timeless Elegance</h1>
 
-      document.getElementById("cartCount").textContent =
-        cart.length;
+    <p>
+      Discover beautiful jewelry made to shine.
+    </p>
 
-      alert(product.name + " added to your cart!");
-    }
+    <button
+      onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
 
+      Shop Now
 
-    function showCart() {
-      if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-      }
+    </button>
 
-      let message = "Your cart:\\n\\n";
+  </div>
 
-      cart.forEach(function(product, index) {
-        message +=
-          (index + 1) + ". " +
-          product.name +
-          " - KES " +
-          Number(product.price).toLocaleString() +
-          "\\n";
-      });
-
-      alert(message);
-    }
+</section>
 
 
-    function contactUs() {
-      window.location.href =
-        "mailto:info@jewelyhub.com";
-    }
+<section id="shop" class="container">
+
+  <h2 style="margin-bottom:20px;">
+    Our Collection
+  </h2>
+
+  <div class="tools">
+
+    <input
+      type="text"
+      id="search"
+      placeholder="Search jewelry..."
+      oninput="filterProducts()"
+    >
+
+    <select
+      id="category"
+      onchange="filterProducts()">
+
+      <option value="">
+        All Categories
+      </option>
+
+    </select>
+
+  </div>
+
+  <div id="products" class="products">
+    Loading products...
+  </div>
+
+</section>
 
 
-    /* =====================================================
-       LOAD PRODUCTS FROM SUPABASE
-       ===================================================== */
+<!-- CART -->
 
-    async function loadProducts() {
+<div id="cartPanel" class="cart-panel">
 
-      const productsContainer =
-        document.getElementById("products");
+  <div class="cart-header">
 
-      try {
+    <h2>Shopping Cart</h2>
 
-        const response = await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?select=*",
-          {
-            method: "GET",
+    <button onclick="closeCart()">×</button>
 
-            headers: {
-              "apikey": SUPABASE_PUBLISHABLE_KEY,
-              "Authorization":
-                "Bearer " + SUPABASE_PUBLISHABLE_KEY
-            }
+  </div>
+
+  <div id="cartItems" class="cart-items"></div>
+
+  <div class="cart-footer">
+
+    <div id="cartTotal" class="cart-total">
+      Total: KES 0
+    </div>
+
+    <button
+      class="checkout"
+      onclick="openCheckout()">
+
+      Proceed to Checkout
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- CHECKOUT MODAL -->
+
+<div id="checkoutModal" class="modal">
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+
+      <h2>Checkout</h2>
+
+      <button
+        class="close"
+        onclick="closeCheckout()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <div class="payment-box">
+
+      <div>
+        Amount to Pay:
+      </div>
+
+      <div
+        id="checkoutAmount"
+        class="payment-amount">
+
+        KES 0
+
+      </div>
+
+      <p style="margin-top:8px;">
+        Your exact order total will be used for payment.
+      </p>
+
+    </div>
+
+
+    <div class="checkout-form">
+
+      <input
+        type="text"
+        id="customerName"
+        placeholder="Full name"
+      >
+
+      <input
+        type="tel"
+        id="customerPhone"
+        placeholder="M-Pesa phone number e.g. 0712345678"
+      >
+
+      <input
+        type="email"
+        id="customerEmail"
+        placeholder="Email address"
+      >
+
+      <textarea
+        id="deliveryLocation"
+        placeholder="Delivery location / address">
+      </textarea>
+
+      <button
+        id="payButton"
+        class="pay-button"
+        onclick="placeOrder()">
+
+        Pay Now
+
+      </button>
+
+      <div
+        id="checkoutMessage"
+        class="message">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<footer>
+
+  <h3>JEWELY HUB</h3>
+
+  <p style="margin-top:10px;">
+    Beautiful jewelry for every occasion.
+  </p>
+
+  <p style="margin-top:15px;">
+    © 2026 JEWELY HUB
+  </p>
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+  "https://wghifvgqdyhwfiyqsspn.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
+
+
+/* ==========================================
+   DATA
+========================================== */
+
+let allProducts = [];
+
+let cart =
+  JSON.parse(
+    localStorage.getItem("jewelyHubCart")
+  ) || [];
+
+
+/* ==========================================
+   LOAD PRODUCTS
+========================================== */
+
+async function loadProducts() {
+
+  const container =
+    document.getElementById("products");
+
+  try {
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/products?select=*&order=id.desc",
+        {
+          headers: {
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "Authorization":
+              "Bearer " + SUPABASE_PUBLISHABLE_KEY
           }
-        );
-
-
-        if (!response.ok) {
-          throw new Error(
-            "Unable to load products."
-          );
         }
+      );
+
+    if (!response.ok) {
+      throw new Error("Could not load products.");
+    }
+
+    allProducts =
+      await response.json();
+
+    populateCategories();
+
+    displayProducts(allProducts);
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load products.</p>";
+  }
+}
 
 
-        const products =
-          await response.json();
+/* ==========================================
+   CATEGORIES
+========================================== */
+
+function populateCategories() {
+
+  const select =
+    document.getElementById("category");
+
+  const categories =
+    [
+      ...new Set(
+        allProducts
+          .map(product => product.category)
+          .filter(Boolean)
+      )
+    ];
+
+  select.innerHTML =
+    '<option value="">All Categories</option>';
+
+  categories.forEach(category => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = category;
+    option.textContent = category;
+
+    select.appendChild(option);
+  });
+}
 
 
-        if (!products || products.length === 0) {
+/* ==========================================
+   DISPLAY PRODUCTS
+========================================== */
 
-          productsContainer.innerHTML = `
-            <div class="loading">
-              <h3>No products available yet.</h3>
-              <p>
-                Products added through the JEWELY HUB
-                admin dashboard will appear here.
-              </p>
-            </div>
-          `;
+function displayProducts(products) {
 
-          return;
+  const container =
+    document.getElementById("products");
+
+  if (products.length === 0) {
+
+    container.innerHTML =
+      "<p>No products found.</p>";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  products.forEach(product => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "product";
+
+    const image =
+      product.image_url
+        ? `<img
+             src="${product.image_url}"
+             alt="${product.name}">
+          `
+        : "💎";
+
+    const stock =
+      Number(product.stock || 0);
+
+    card.innerHTML = `
+
+      <div class="product-image">
+        ${image}
+      </div>
+
+      <div class="product-info">
+
+        <h3>${product.name}</h3>
+
+        <p class="description">
+          ${product.description || ""}
+        </p>
+
+        <p class="category">
+          ${product.category || ""}
+        </p>
+
+        <p class="price">
+          KES ${Number(product.price).toLocaleString()}
+        </p>
+
+        <p class="stock">
+          ${
+            stock > 0
+              ? stock + " available"
+              : "Out of stock"
+          }
+        </p>
+
+        <button
+          class="add-cart"
+          ${stock <= 0 ? "disabled" : ""}
+          onclick="addToCart(${product.id})">
+
+          ${
+            stock > 0
+              ? "🛒 Add to Cart"
+              : "Out of Stock"
+          }
+
+        </button>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+function filterProducts() {
+
+  const search =
+    document.getElementById("search")
+      .value
+      .toLowerCase();
+
+  const category =
+    document.getElementById("category")
+      .value;
+
+  const filtered =
+    allProducts.filter(product => {
+
+      const matchesSearch =
+        product.name
+          .toLowerCase()
+          .includes(search);
+
+      const matchesCategory =
+        !category ||
+        product.category === category;
+
+      return matchesSearch && matchesCategory;
+    });
+
+  displayProducts(filtered);
+}
+
+
+/* ==========================================
+   CART
+========================================== */
+
+function addToCart(id) {
+
+  const product =
+    allProducts.find(
+      p => p.id === id
+    );
+
+  if (!product) return;
+
+  const existing =
+    cart.find(
+      item => item.id === id
+    );
+
+  if (existing) {
+
+    if (
+      existing.quantity <
+      Number(product.stock)
+    ) {
+      existing.quantity++;
+    } else {
+      alert("You have reached the available stock.");
+      return;
+    }
+
+  } else {
+
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image_url: product.image_url,
+      quantity: 1,
+      stock: Number(product.stock)
+    });
+  }
+
+  saveCart();
+  updateCart();
+
+  alert(product.name + " added to cart!");
+}
+
+
+function saveCart() {
+
+  localStorage.setItem(
+    "jewelyHubCart",
+    JSON.stringify(cart)
+  );
+}
+
+
+function updateCart() {
+
+  const container =
+    document.getElementById("cartItems");
+
+  const count =
+    cart.reduce(
+      (total, item) =>
+        total + item.quantity,
+      0
+    );
+
+  document.getElementById("cartCount")
+    .textContent = count;
+
+  if (cart.length === 0) {
+
+    container.innerHTML =
+      '<p class="empty">Your cart is empty.</p>';
+
+    document.getElementById("cartTotal")
+      .textContent =
+      "Total: KES 0";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item => {
+
+    const subtotal =
+      item.price * item.quantity;
+
+    total += subtotal;
+
+    const div =
+      document.createElement("div");
+
+    div.className = "cart-item";
+
+    div.innerHTML = `
+
+      <h4>${item.name}</h4>
+
+      <p>
+        KES ${item.price.toLocaleString()}
+      </p>
+
+      <div class="quantity">
+
+        <button
+          onclick="changeQuantity(${item.id}, -1)">
+          −
+        </button>
+
+        <strong>${item.quantity}</strong>
+
+        <button
+          onclick="changeQuantity(${item.id}, 1)">
+          +
+        </button>
+
+      </div>
+
+      <p style="margin-top:8px;">
+        Subtotal:
+        <strong>
+          KES ${subtotal.toLocaleString()}
+        </strong>
+      </p>
+
+      <button
+        class="remove"
+        onclick="removeFromCart(${item.id})">
+
+        Remove
+
+      </button>
+    `;
+
+    container.appendChild(div);
+  });
+
+  document.getElementById("cartTotal")
+    .textContent =
+    "Total: KES " +
+    total.toLocaleString();
+}
+
+
+function changeQuantity(id, amount) {
+
+  const item =
+    cart.find(
+      product => product.id === id
+    );
+
+  if (!item) return;
+
+  const newQuantity =
+    item.quantity + amount;
+
+  if (newQuantity <= 0) {
+    removeFromCart(id);
+    return;
+  }
+
+  if (newQuantity > item.stock) {
+
+    alert(
+      "You cannot add more than the available stock."
+    );
+
+    return;
+  }
+
+  item.quantity = newQuantity;
+
+  saveCart();
+  updateCart();
+}
+
+
+function removeFromCart(id) {
+
+  cart =
+    cart.filter(
+      item => item.id !== id
+    );
+
+  saveCart();
+  updateCart();
+}
+
+
+function openCart() {
+
+  document.getElementById("cartPanel")
+    .classList.add("open");
+}
+
+
+function closeCart() {
+
+  document.getElementById("cartPanel")
+    .classList.remove("open");
+}
+
+
+/* ==========================================
+   CHECKOUT
+========================================== */
+
+function getCartTotal() {
+
+  return cart.reduce(
+    (total, item) =>
+      total + (item.price * item.quantity),
+    0
+  );
+}
+
+
+function openCheckout() {
+
+  if (cart.length === 0) {
+
+    alert("Your cart is empty.");
+
+    return;
+  }
+
+  const total =
+    getCartTotal();
+
+  document.getElementById("checkoutAmount")
+    .textContent =
+    "KES " + total.toLocaleString();
+
+  document.getElementById("checkoutModal")
+    .style.display = "block";
+}
+
+
+function closeCheckout() {
+
+  document.getElementById("checkoutModal")
+    .style.display = "none";
+}
+
+
+/* ==========================================
+   PLACE ORDER
+========================================== */
+
+async function placeOrder() {
+
+  const name =
+    document.getElementById("customerName")
+      .value.trim();
+
+  const phone =
+    document.getElementById("customerPhone")
+      .value.trim();
+
+  const email =
+    document.getElementById("customerEmail")
+      .value.trim();
+
+  const location =
+    document.getElementById("deliveryLocation")
+      .value.trim();
+
+  const message =
+    document.getElementById("checkoutMessage");
+
+  const button =
+    document.getElementById("payButton");
+
+
+  if (!name || !phone || !location) {
+
+    message.textContent =
+      "Please enter your name, M-Pesa phone number and delivery location.";
+
+    message.style.color = "red";
+
+    return;
+  }
+
+
+  if (cart.length === 0) {
+
+    message.textContent =
+      "Your cart is empty.";
+
+    message.style.color = "red";
+
+    return;
+  }
+
+
+  const total =
+    getCartTotal();
+
+
+  const orderItems =
+    cart.map(item => ({
+
+      id: item.id,
+
+      name: item.name,
+
+      price: item.price,
+
+      quantity: item.quantity
+
+    }));
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "Saving Order...";
+
+
+  try {
+
+    /*
+      IMPORTANT:
+
+      This saves the order first.
+
+      The actual M-Pesa STK Push will be
+      connected securely through a Supabase
+      Edge Function in the next step.
+    */
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/orders",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_PUBLISHABLE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SUPABASE_PUBLISHABLE_KEY,
+
+            "Prefer":
+              "return=representation"
+
+          },
+
+          body: JSON.stringify({
+
+            customer_name: name,
+
+            phone: phone,
+
+            email: email || null,
+
+            delivery_location: location,
+
+            items: orderItems,
+
+            total: total,
+
+            status: "pending"
+
+          })
+
         }
+      );
 
 
-        productsContainer.innerHTML = "";
+    if (!response.ok) {
 
+      const errorText =
+        await response.text();
 
-        products.forEach(function(product) {
-
-          const card =
-            document.createElement("div");
-
-          card.className = "product";
-
-
-          card.innerHTML = `
-
-            <div class="product-image">
-              ${
-                product.image_url
-                ? `<img
-                    src="${product.image_url}"
-                    alt="${product.name}"
-                    style="
-                      width:100%;
-                      height:100%;
-                      object-fit:cover;
-                    "
-                  >`
-                : "💎"
-              }
-            </div>
-
-            <div class="product-info">
-
-              <h3>
-                ${product.name}
-              </h3>
-
-              <div class="price">
-                KES ${Number(product.price).toLocaleString()}
-              </div>
-
-              <button
-                class="btn"
-                onclick='addToCart(${JSON.stringify(product)})'
-              >
-                Add to Cart
-              </button>
-
-            </div>
-          `;
-
-
-          productsContainer.appendChild(card);
-
-        });
-
-      } catch (error) {
-
-        console.error(error);
-
-        productsContainer.innerHTML = `
-
-          <div class="loading">
-
-            <h3>Products could not be loaded.</h3>
-
-            <p>
-              We are preparing the JEWELY HUB catalog.
-              Please check again soon.
-            </p>
-
-          </div>
-        `;
-      }
+      throw new Error(errorText);
     }
 
 
-    /* =====================================================
-       START WEBSITE
-       ===================================================== */
+    /*
+      ORDER SAVED
+    */
 
-    loadProducts();
+    message.innerHTML = `
+      ✅ Order created successfully.<br><br>
 
-  </script>
+      <strong>
+        Amount to Pay:
+        KES ${total.toLocaleString()}
+      </strong>
+
+      <br><br>
+
+      Your M-Pesa payment request will be
+      connected next.
+    `;
+
+    message.style.color = "green";
+
+
+    button.textContent =
+      "Order Saved";
+
+
+    /*
+      Clear cart after successful order
+    */
+
+    cart = [];
+
+    saveCart();
+
+    updateCart();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "❌ Could not create the order. Please try again.";
+
+    message.style.color = "red";
+
+    button.disabled = false;
+
+    button.textContent =
+      "Pay KES " +
+      total.toLocaleString();
+  }
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+loadProducts();
+
+updateCart();
+
+</script>
 
 </body>
 </html>
-```
