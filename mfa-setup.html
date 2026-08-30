@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>JEWELY HUB | Set Up 2FA</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      padding: 35px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.5;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 20px;
+      text-align: center;
+      letter-spacing: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 6px;
+      background: #d4af37;
+      color: #111;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+    }
+
+    #qr {
+      margin: 20px auto;
+      max-width: 250px;
+    }
+
+    #qr svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .error {
+      display: block;
+      background: #ffe5e5;
+      color: #a00000;
+    }
+
+    .success {
+      display: block;
+      background: #e5f8e8;
+      color: #146b24;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h1>🔐 JEWELY HUB</h1>
+
+  <h2>Set Up Two-Factor Authentication</h2>
+
+  <div id="loginSection">
+
+    <p>
+      Sign in with your JEWELY HUB admin email and password
+      to begin setting up your authenticator.
+    </p>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Admin email"
+      autocomplete="username"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+      style="letter-spacing:normal;"
+    >
+
+    <button
+      id="loginButton"
+      onclick="login()"
+    >
+      Sign In
+    </button>
+
+  </div>
+
+
+  <div id="setupSection" class="hidden">
+
+    <p>
+      Scan this QR code with your authenticator app.
+    </p>
+
+    <div id="qr"></div>
+
+    <p>
+      After scanning, your authenticator app will generate
+      a 6-digit code.
+    </p>
+
+    <input
+      id="code"
+      type="text"
+      inputmode="numeric"
+      maxlength="6"
+      placeholder="000000"
+      autocomplete="one-time-code"
+    >
+
+    <button
+      id="verifyButton"
+      onclick="verifyCode()"
+    >
+      Verify & Enable 2FA
+    </button>
+
+  </div>
+
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+</div>
+
+
+<script>
+
+  /* ==========================================
+     SUPABASE CONFIGURATION
+  ========================================== */
+
+  const SUPABASE_URL =
+    "https://wghifvgqdyhwfiyqsspn.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_umNpgsluEJFq6gxkiAaKNQ_yXDLyuHl";
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  let factorId = null;
+  let challengeId = null;
+
+
+  /* ==========================================
+     MESSAGE
+  ========================================== */
+
+  function showMessage(text, type) {
+
+    const message =
+      document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+      "message " + type;
+
+  }
+
+
+  /* ==========================================
+     LOGIN
+  ========================================== */
+
+  async function login() {
+
+    const email =
+      document.getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document.getElementById("password")
+        .value;
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+
+    if (!email || !password) {
+
+      showMessage(
+        "Please enter your email and password.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+      "Signing in...";
+
+
+    showMessage(
+      "Signing in...",
+      "success"
+    );
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth
+          .signInWithPassword({
+            email: email,
+            password: password
+          });
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      showMessage(
+        "Login successful. Preparing your authenticator...",
+        "success"
+      );
+
+
+      await enrollTOTP();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        error.message ||
+        "Unable to sign in.",
+        "error"
+      );
+
+      loginButton.disabled = false;
+
+      loginButton.textContent =
+        "Sign In";
+
+    }
+
+  }
+
+
+  /* ==========================================
+     ENROLL TOTP
+  ========================================== */
+
+  async function enrollTOTP() {
+
+    /*
+      Check whether a verified TOTP
+      factor already exists.
+    */
+
+    const {
+      data: factorsData,
+      error: factorsError
+    } =
+      await supabaseClient.auth
+        .mfa.listFactors();
+
+
+    if (factorsError) {
+      throw factorsError;
+    }
+
+
+    const verifiedFactors =
+      (factorsData.all || [])
+        .filter(
+          factor =>
+            factor.factor_type === "totp" &&
+            factor.status === "verified"
+        );
+
+
+    /*
+      If TOTP is already enrolled,
+      don't create another one.
+    */
+
+    if (verifiedFactors.length > 0) {
+
+      showMessage(
+        "Your authenticator is already enrolled. You can use the 6-digit code from your authenticator app to sign in.",
+        "success"
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Create a new TOTP factor.
+    */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.mfa.enroll({
+        factorType: "totp",
+        friendlyName:
+          "JEWELY HUB Admin Authenticator"
+      });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    factorId =
+      data.id;
+
+
+    /*
+      Display QR code.
+    */
+
+    document.getElementById("qr")
+      .innerHTML =
+      data.totp.qr_code;
+
+
+    document.getElementById("loginSection")
+      .classList.add("hidden");
+
+
+    document.getElementById("setupSection")
+      .classList.remove("hidden");
+
+
+    showMessage(
+      "Scan the QR code with your authenticator app, then enter the 6-digit code.",
+      "success"
+    );
+
+  }
+
+
+  /* ==========================================
+     VERIFY CODE
+  ========================================== */
+
+  async function verifyCode() {
+
+    const code =
+      document.getElementById("code")
+        .value
+        .trim();
+
+    const button =
+      document.getElementById("verifyButton");
+
+
+    if (!/^[0-9]{6}$/.test(code)) {
+
+      showMessage(
+        "Please enter the 6-digit code from your authenticator app.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!factorId) {
+
+      showMessage(
+        "No new MFA factor is waiting for verification.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "Verifying...";
+
+
+    try {
+
+      /*
+        Create MFA challenge.
+      */
+
+      const {
+        data: challengeData,
+        error: challengeError
+      } =
+        await supabaseClient.auth
+          .mfa.challenge({
+            factorId: factorId
+          });
+
+
+      if (challengeError) {
+        throw challengeError;
+      }
+
+
+      challengeId =
+        challengeData.id;
+
+
+      /*
+        Verify 6-digit code.
+      */
+
+      const {
+        data: verifyData,
+        error: verifyError
+      } =
+        await supabaseClient.auth
+          .mfa.verify({
+            factorId: factorId,
+            challengeId: challengeId,
+            code: code
+          });
+
+
+      if (verifyError) {
+        throw verifyError;
+      }
+
+
+      /*
+        Confirm AAL2.
+      */
+
+      const {
+        data: assuranceData,
+        error: assuranceError
+      } =
+        await supabaseClient.auth
+          .mfa.getAuthenticatorAssuranceLevel();
+
+
+      if (assuranceError) {
+        throw assuranceError;
+      }
+
+
+      if (
+        assuranceData.currentLevel !== "aal2"
+      ) {
+
+        throw new Error(
+          "The authenticator was verified, but the session did not reach the required security level."
+        );
+
+      }
+
+
+      showMessage(
+        "🎉 SUCCESS! Two-factor authentication is now enabled for your JEWELY HUB admin account.",
+        "success"
+      );
+
+
+      document.getElementById("setupSection")
+        .innerHTML = `
+
+          <h2 style="margin-top:20px;">
+            🔐 2FA Enabled
+          </h2>
+
+          <p style="margin-top:15px;">
+            Your authenticator has been successfully
+            connected to your JEWELY HUB admin account.
+          </p>
+
+          <p style="margin-top:15px;">
+            Keep your authenticator app available whenever
+            you sign in to the admin area.
+          </p>
+
+        `;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        error.message ||
+        "The authentication code was not accepted.",
+        "error"
+      );
+
+      document.getElementById("code")
+        .value = "";
+
+      document.getElementById("code")
+        .focus();
+
+      button.disabled = false;
+
+      button.textContent =
+        "Verify & Enable 2FA";
+
+    }
+
+  }
+
+</script>
+
+</body>
+</html>
